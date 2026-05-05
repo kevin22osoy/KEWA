@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEWA - Tienda de Tecnología</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background: white;
+            border-bottom: 3px solid #00BCD4;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header-top {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: 600;
+            color: #00BCD4;
+            flex-shrink: 0;
+        }
+        
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            padding: 0 1rem;
+        }
+        
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 8px 10px;
+            background: transparent;
+            color: #333;
+            font-size: 13px;
+        }
+        
+        .search-box input::placeholder {
+            color: #999;
+        }
+        
+        .search-box button {
+            background: none;
+            border: none;
+            color: #00BCD4;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 8px;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: #333;
+            border-radius: 2px;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .header-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 13px;
+            transition: color 0.3s;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+        }
+        
+        .header-link:hover {
+            color: #00BCD4;
+            background: #f0f0f0;
+        }
+        
+        .nav-categories {
+            max-width: 1400px;
+            margin: 0.8rem auto;
+            padding: 0 1rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            flex-wrap: wrap;
+        }
+        
+        .nav-categories::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .nav-categories::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .nav-categories::-webkit-scrollbar-thumb {
+            background: #00BCD4;
+            border-radius: 2px;
+        }
+        
+        .category-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 12px;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover {
+            border-color: #00BCD4;
+            color: #00BCD4;
+        }
+        
+        .category-btn.active {
+            background: #00BCD4;
+            color: white;
+            border-color: #00BCD4;
+        }
+        
+        .hero-banner {
+            background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            margin: 0 1rem 1.5rem 1rem;
+        }
+        
+        .hero-banner h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero-banner p {
+            font-size: 13px;
+            opacity: 0.95;
+        }
+        
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+        
+        .section-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+            color: #333;
+            border-left: 4px solid #00BCD4;
+            padding-left: 0.8rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            border-color: #00BCD4;
+            box-shadow: 0 8px 16px rgba(0,188,212,0.15);
+            transform: translateY(-3px);
+        }
+        
+        .product-image {
+            background: #f9f9f9;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 0.8rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-category {
+            font-size: 10px;
+            color: #00BCD4;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .product-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+            min-height: 2.4em;
+        }
+        
+        .product-specs {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 0.6rem;
+            line-height: 1.3;
+        }
+        
+        .product-availability {
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            display: inline-block;
+            width: fit-content;
+        }
+        
+        .product-availability.available {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .product-availability.limited {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+        }
+        
+        .product-button {
+            padding: 7px 10px;
+            background: #00BCD4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 11px;
+            transition: background 0.3s;
+            margin-top: auto;
+        }
+        
+        .product-button:hover {
+            background: #0097A7;
+        }
+        
+        .contact-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #f9f9f9;
+            color: #333;
+            font-size: 13px;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            grid-column: 1 / -1;
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            grid-column: 1 / -1;
+            padding: 12px;
+            background: #00BCD4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .form-submit:hover {
+            background: #0097A7;
+        }
+        
+        .footer {
+            background: white;
+            border-top: 2px solid #eee;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+        
+        .footer-section a {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 0.4rem;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: #00BCD4;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #00BCD4;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: #00BCD4;
+            color: white;
+        }
+        
+        .contact-info {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 999;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 0.5rem;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            display: flex;
+        }
+        
+        .mobile-menu a {
+            padding: 1rem;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            font-weight: 500;
+        }
+        
+        .mobile-menu a:hover {
+            background: #f0f0f0;
+            color: #00BCD4;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 18px;
+            }
+            
+            .search-box {
+                max-width: 200px;
+            }
+            
+            .header-right {
+                gap: 0.5rem;
+            }
+            
+            .header-link {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 0.8rem;
+            }
+            
+            .product-image {
+                height: 100px;
+                font-size: 36px;
+            }
+            
+            .product-name {
+                font-size: 11px;
+                min-height: 2.2em;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .hero-banner {
+                padding: 1.5rem 1rem;
+                margin: 1rem;
+            }
+            
+            .hero-banner h2 {
+                font-size: 18px;
+            }
+            
+            .hero-banner p {
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-top {
+                padding: 0 0.8rem;
+                gap: 0.5rem;
+            }
+            
+            .search-box {
+                max-width: 150px;
+            }
+            
+            .search-box input {
+                font-size: 12px;
+            }
+            
+            .logo {
+                font-size: 16px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 0.6rem;
+            }
+            
+            .product-image {
+                height: 80px;
+                font-size: 32px;
+            }
+            
+            .product-info {
+                padding: 0.6rem;
+            }
+            
+            .product-name {
+                font-size: 10px;
+            }
+            
+            .product-specs {
+                font-size: 9px;
+            }
+            
+            .product-button {
+                padding: 6px 8px;
+                font-size: 10px;
+            }
+            
+            .section-header {
+                font-size: 16px;
+            }
+            
+            .nav-categories {
+                margin: 0.5rem auto;
+                padding: 0 0.8rem;
+            }
+            
+            .category-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="logo">K KEWA</div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar...">
+                <button onclick="searchProducts()">🔍</button>
+            </div>
+            <div class="header-right">
+                <a href="#contacto" class="header-link">Contacto</a>
+                <a href="#" class="header-link">Soporte</a>
+            </div>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#contacto">Contacto</a>
+            <a href="#">Soporte</a>
+            <a href="#">Sobre Nosotros</a>
+            <a href="#">Términos</a>
+        </div>
+        
+        <div class="nav-categories">
+            <button class="category-btn active" onclick="filterByCategory('todos')">Todos</button>
+            <button class="category-btn" onclick="filterByCategory('laptops')">Laptops</button>
+            <button class="category-btn" onclick="filterByCategory('monitores')">Monitores</button>
+            <button class="category-btn" onclick="filterByCategory('componentes')">Componentes</button>
+            <button class="category-btn" onclick="filterByCategory('software')">Software</button>
+            <button class="category-btn" onclick="filterByCategory('accesorios')">Accesorios</button>
+        </div>
+    </header>
+    
+    <div class="hero-banner">
+        <h2>Soluciones Tecnológicas</h2>
+        <p>Laptops, Componentes, Software y Accesorios con asesoría personalizada</p>
+    </div>
+    
+    <div class="main-container">
+        <h1 class="section-header">Catálogo de Productos</h1>
+        <div class="products-grid" id="productsGrid"></div>
+        
+        <div id="contacto" class="contact-section">
+            <h3>Solicitar Cotización</h3>
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <input type="text" placeholder="Nombre Completo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Correo Electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Teléfono" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Presupuesto (GTQ)">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Cuéntame qué producto te interesa..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Enviar Cotización</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sobre KEWA</h3>
+                <a href="#">Sobre Nosotros</a>
+                <a href="#">Valores</a>
+                <a href="#">Políticas</a>
+                <a href="#">Garantía</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Categorías</h3>
+                <a href="#">Laptops Gaming</a>
+                <a href="#">Laptops Pro</a>
+                <a href="#">Monitores</a>
+                <a href="#">Componentes</a>
+                <a href="#">Software</a>
+                <a href="#">Accesorios</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Ayuda</h3>
+                <a href="#">Preguntas Frecuentes</a>
+                <a href="#">Cambios y Devoluciones</a>
+                <a href="#">Métodos de Pago</a>
+                <a href="#">Rastreo</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <div class="contact-info">WhatsApp: +502 1234-5678</div>
+                <div class="contact-info">Email: info@kewa.com</div>
+                <div class="contact-info">Horarios: Lun-Sáb 9am-6pm</div>
+                <h3 style="margin-top: 0.8rem;">Síguenos</h3>
+                <div class="social-links">
+                    <a href="https://instagram.com/kewatech" target="_blank">📱</a>
+                    <a href="https://facebook.com/kewatechnology" target="_blank">f</a>
+                    <a href="https://wa.me/50212345678" target="_blank">💬</a>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; padding-top: 1.5rem; border-top: 1px solid #eee; margin-top: 1.5rem; font-size: 11px; color: #999;">
+            <p>&copy; 2024 KEWA - Soluciones Tecnológicas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const allProducts = [
+            { id: 1, name: "ASUS TUF Gaming A15", category: "laptops", type: "gaming", specs: "Ryzen 7 | RTX 3050 Ti | 16GB | 512GB", availability: "available", image: "IMAGENES/Gaming ASUS TUF Gaming A15 Ryzen 7.jpg" },
+            { id: 2, name: "Razer Blade 14", category: "laptops", type: "gaming", specs: "Intel i7 | RTX 3060 | 16GB DDR5", availability: "limited", image: "IMAGENES/Gaming razer blade 14 intel i7.jpg" },
+            { id: 3, name: "MSI GE76 Raider", category: "laptops", type: "gaming", specs: "Intel i9 | RTX 3080 | 32GB | 1TB", availability: "limited", image: "IMAGENES/11pr.jpeg" },
+            { id: 4, name: "Lenovo ThinkPad X1", category: "laptops", type: "profesional", specs: "Intel i7 | 16GB | 512GB | 14\" OLED", availability: "available", image: "IMAGENES/Computadoras-Laptops-Lenovo-83LK002ELM-540823-Tjpoyn1Y6VcqUpKj.jpg" },
+            { id: 5, name: "Dell XPS 15", category: "laptops", type: "profesional", specs: "Intel i9 | RTX 3050 | 32GB | 1TB 4K", availability: "limited", image: "IMAGENES/cat-405.webp" },
+            { id: 6, name: "MacBook Pro M1", category: "laptops", type: "profesional", specs: "Apple M1 | 16GB | 512GB | ProMotion", availability: "available", image: "IMAGENES/cat-405.webp" },
+            { id: 7, name: "HP Pavilion 15", category: "laptops", type: "trabajo", specs: "Intel i5 | 8GB | 256GB | FHD", availability: "available", image: "IMAGENES/cat-61.webp" },
+            { id: 8, name: "ASUS VivoBook 15", category: "laptops", type: "trabajo", specs: "Ryzen 5 | 8GB | 512GB SSD", availability: "available", image: "IMAGENES/ASUS VivoBook 15 ryzen 5 8gb 512gb.jpg" },
+
+            { id: 9, name: "ASUS ROG Swift 27", category: "monitores", type: "gaming", specs: "27\" QHD | 240Hz | IPS | 1ms", availability: "available", image: "IMAGENES/Gaming asus rog swift 27 27 qhd 24.jpg" },
+            { id: 10, name: "LG 27GP850", category: "monitores", type: "gaming", specs: "27\" QHD | 144Hz | VA | 1ms", availability: "available", image: "IMAGENES/Electronica-Monitores-XPG-RIFT-R24F2-BKCMX-565326-RofoCNDhnBN3N30u.jpg" },
+            { id: 11, name: "Dell S2721DGF", category: "monitores", type: "gaming", specs: "27\" QHD | 165Hz | IPS | 1ms", availability: "limited", image: "IMAGENES/Electronica-Monitores-BALAM-RUSH-BR-932448-382958-UPyPblyFbJQbDlDQ.jpg" },
+            { id: 12, name: "BenQ PD2700U", category: "monitores", type: "profesional", specs: "27\" 4K | IPS | Calibración", availability: "available", image: "IMAGENES/Electronica-Monitores-HP-AK2F1UTABA-531021-bFsqwIxHSEPZLVfn.jpg" },
+            { id: 13, name: "ASUS ProArt PA248", category: "monitores", type: "profesional", specs: "24\" FHD | IPS | 100% sRGB", availability: "available", image: "IMAGENES/Electronica-Monitores-LG-24U411A-B-AWMQ-553697-72xs6xPrz5ayr7VL.jpg" },
+            { id: 14, name: "LG 32UP550", category: "monitores", type: "profesional", specs: "32\" 4K | IPS | HDR10 | USB-C", availability: "limited", image: "IMAGENES/Electronica-Monitores-Samsung-LH65WAFWLGCXZX-550253-yI5OP6FoeelJ6JU8.jpg" },
+
+            { id: 15, name: "Kingston Fury 16GB", category: "componentes", type: "memoria", specs: "DDR4 3600MHz | Cas 18 | RGB", availability: "available", image: "IMAGENES/memoria kingston kury 16gb ddr4 3600n.jpg" },
+            { id: 16, name: "Corsair Vengeance 32GB", category: "componentes", type: "memoria", specs: "2x16GB | 3600MHz | RGB", availability: "available", image: "IMAGENES/cat-13.webp" },
+            { id: 17, name: "Samsung 870 EVO 1TB", category: "componentes", type: "almacenamiento", specs: "SSD SATA | 550MB/s", availability: "available", image: "IMAGENES/Hardware-Unidades-de-Estado-Solido-SSD-A-DATA-ASU630SS-240GQ-R-333566-EdZM1DEVOeqbdu7j.jpg" },
+            { id: 18, name: "Samsung 980 PRO 2TB", category: "componentes", type: "almacenamiento", specs: "NVMe PCIe 4.0 | 7100MB/s", availability: "available", image: "IMAGENES/Samsung 980 PRO 2TB.jpg" },
+            { id: 19, name: "RTX 3070 Ti", category: "componentes", type: "gpu", specs: "8GB GDDR6X | Ray Tracing", availability: "limited", image: "IMAGENES/cat-251.webp" },
+            { id: 20, name: "RTX 3060 Ti", category: "componentes", type: "gpu", specs: "8GB GDDR6 | PCIe 4.0", availability: "available", image: "IMAGENES/cat-251.webp" },
+
+            { id: 21, name: "Windows 11 Pro", category: "software", type: "sistema", specs: "Licencia Perpetua", availability: "available", image: "IMAGENES/cat-87.webp" },
+            { id: 22, name: "Microsoft Office 365", category: "software", type: "productividad", specs: "Word, Excel, Teams + OneDrive", availability: "available", image: "IMAGENES/Microsoft Office 365.webp" },
+            { id: 23, name: "Adobe Creative Cloud", category: "software", type: "diseño", specs: "Photoshop, Illustrator, Premiere", availability: "available", image: "IMAGENES/Adobe Creative Cloud.jpg" },
+            { id: 24, name: "Autodesk AutoCAD", category: "software", type: "diseño", specs: "2D & 3D Design", availability: "available", image: "IMAGENES/autocad25.jpg" },
+
+            { id: 25, name: "Logitech G502 HERO", category: "accesorios", type: "perifericos", specs: "Ratón Gaming | 25600 DPI", availability: "available", image: "IMAGENES/Logitech G502 HERO raton gaming 2561.webp" },
+            { id: 26, name: "Razer DeathAdder V3", category: "accesorios", type: "perifericos", specs: "Ratón Gaming | 30000 DPI", availability: "available", image: "IMAGENES/Razer DeathAdder V3.jpg" },
+            { id: 27, name: "Corsair K95 RGB", category: "accesorios", type: "perifericos", specs: "Teclado Mecánico | Switches", availability: "limited", image: "IMAGENES/Corsair K95 RGB.jpeg" },
+            { id: 28, name: "Noctua NH-D15", category: "accesorios", type: "cooling", specs: "Disipador Air | Dual Tower", availability: "available", image: "IMAGENES/nh_d15_g2_launch_web.jpg" },
+            { id: 29, name: "NZXT Kraken X53", category: "accesorios", type: "cooling", specs: "Líquida AIO | 280mm", availability: "available", image: "IMAGENES/cooling nzxt rajeb x53.avif" },
+            { id: 30, name: "Cable HDMI 2.1", category: "accesorios", type: "cables", specs: "8K@60Hz | 2 metros", availability: "available", image: "IMAGENES/cables hdmi 2.1.jpg" }
+        ];
+        
+        function renderProducts(products) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            
+            if (products.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 2rem; text-align: center; color: #999;">No se encontraron productos</div>';
+                return;
+            }
+            
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                let categoryLabel = '';
+                if (product.category === 'laptops') {
+                    categoryLabel = product.type === 'gaming' ? 'Gaming' : product.type === 'profesional' ? 'Pro' : 'Estudio';
+                } else if (product.category === 'monitores') {
+                    categoryLabel = product.type === 'gaming' ? 'Gaming' : 'Pro';
+                } else {
+                    categoryLabel = product.type.substring(0, 8);
+                }
+                
+                card.innerHTML = `
+                    <div class="product-image"><img src="${product.image}" alt="${product.name}"></div>
+                    <div class="product-info">
+                        <div class="product-category">${categoryLabel}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-specs">${product.specs}</div>
+                        <div class="product-availability ${product.availability}">${product.availability === 'available' ? 'Stock' : 'Limitado'}</div>
+                        <button class="product-button" onclick="scrollToContact()">Cotizar</button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        function filterByCategory(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const filtered = category === 'todos' ? allProducts : allProducts.filter(p => p.category === category);
+            renderProducts(filtered);
+            
+            closeMobileMenu();
+        }
+        
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allProducts.filter(p => 
+                p.name.toLowerCase().includes(searchTerm) || 
+                p.specs.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filtered);
+        }
+        
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchProducts();
+        });
+        
+        function scrollToContact() {
+            document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+        
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.remove('active');
+        }
+        
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Cotización enviada exitosamente. Te contactaremos pronto.');
+            event.target.reset();
+        }
+        
+        renderProducts(allProducts);
+    </script>
+</body>
+</html>
